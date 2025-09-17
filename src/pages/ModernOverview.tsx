@@ -151,10 +151,10 @@ const ModernOverview: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 4, maxWidth: '100%' }}>
+    <Box sx={{ p: 2, maxWidth: '100%' }}>
       {/* Modern Header */}
-      <Box sx={{ mb: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
+      <Box sx={{ mb: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
           <Box>
             <Typography 
               variant="h4" 
@@ -190,20 +190,20 @@ const ModernOverview: React.FC = () => {
       </Box>
 
       {/* Key Metrics Cards */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
+      <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid item xs={12} sm={6} lg={3}>
           <Card sx={{ 
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: 'white',
             border: 'none'
           }}>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
+            <CardContent sx={{ p: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
                 <Box>
                   <Typography variant="body2" sx={{ opacity: 0.9, fontWeight: 500 }}>
                     Total Tables
                   </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 700, mt: 1 }}>
+                  <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5, fontSize: '1.8rem', lineHeight: 1.2 }}>
                     {mockStats.totalTables.toLocaleString()}
                   </Typography>
                 </Box>
@@ -221,8 +221,8 @@ const ModernOverview: React.FC = () => {
         
         <Grid item xs={12} sm={6} lg={3}>
           <Card>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
+            <CardContent sx={{ p: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
                 <Box>
                   <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                     Healthy Tables
@@ -245,8 +245,8 @@ const ModernOverview: React.FC = () => {
         
         <Grid item xs={12} sm={6} lg={3}>
           <Card>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
+            <CardContent sx={{ p: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
                 <Box>
                   <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                     Warnings
@@ -269,8 +269,8 @@ const ModernOverview: React.FC = () => {
         
         <Grid item xs={12} sm={6} lg={3}>
           <Card>
-            <CardContent sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 2 }}>
+            <CardContent sx={{ p: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
                 <Box>
                   <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
                     Critical Issues
@@ -295,7 +295,7 @@ const ModernOverview: React.FC = () => {
       {/* Table Quality List */}
       <Card>
         <CardContent sx={{ p: 0 }}>
-          <Box sx={{ p: 3, borderBottom: '1px solid #e2e8f0' }}>
+          <Box sx={{ p: 2, borderBottom: '1px solid #e2e8f0' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Table Quality Status
@@ -319,7 +319,7 @@ const ModernOverview: React.FC = () => {
             <Box
               key={`${table.databaseName}.${table.schemaName}.${table.tableName}`}
               sx={{
-                p: 3,
+                p: 2,
                 borderBottom: index < mockTables.length - 1 ? '1px solid #e2e8f0' : 'none',
                 transition: 'all 0.2s ease-in-out',
                 '&:hover': {
@@ -327,13 +327,13 @@ const ModernOverview: React.FC = () => {
                 },
               }}
             >
-              <Grid container spacing={3} alignItems="center">
+              <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} md={4}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Avatar
                       sx={{
-                        width: 40,
-                        height: 40,
+                        width: 32,
+                        height: 32,
                         backgroundColor: table.status === 'healthy' ? '#ecfdf5' : 
                                        table.status === 'warning' ? '#fffbeb' : '#fef2f2',
                         color: table.status === 'healthy' ? '#059669' : 
