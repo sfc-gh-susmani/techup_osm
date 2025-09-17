@@ -190,10 +190,13 @@ const CustomRules: React.FC = () => {
       </Alert>
 
       {/* Rules Grid */}
-      <Grid container spacing={3}>
+      <Box sx={{ 
+        display: 'grid', 
+        gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' },
+        gap: 3
+      }}>
         {rules.map((rule) => (
-          <Grid item xs={12} md={6} lg={4} key={rule.id}>
-            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <Card key={rule.id} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <CardContent sx={{ flexGrow: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                   <Typography variant="h6" component="h3">
@@ -279,9 +282,8 @@ const CustomRules: React.FC = () => {
                 </IconButton>
               </CardActions>
             </Card>
-          </Grid>
         ))}
-      </Grid>
+      </Box>
 
       {/* Create/Edit Rule Dialog */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)} maxWidth="md" fullWidth>
@@ -289,18 +291,15 @@ const CustomRules: React.FC = () => {
           {editingRule ? 'Edit Custom Rule' : 'Create Custom Rule'}
         </DialogTitle>
         <DialogContent>
-          <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
-              <TextField
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
+            <TextField
                 fullWidth
                 label="Rule Name"
                 value={newRule.name}
                 onChange={(e) => setNewRule({ ...newRule, name: e.target.value })}
               />
-            </Grid>
             
-            <Grid item xs={12}>
-              <TextField
+            <TextField
                 fullWidth
                 label="Description"
                 multiline
@@ -308,10 +307,8 @@ const CustomRules: React.FC = () => {
                 value={newRule.description}
                 onChange={(e) => setNewRule({ ...newRule, description: e.target.value })}
               />
-            </Grid>
             
-            <Grid item xs={12}>
-              <TextField
+            <TextField
                 fullWidth
                 label="SQL Query"
                 multiline
@@ -320,7 +317,6 @@ const CustomRules: React.FC = () => {
                 onChange={(e) => setNewRule({ ...newRule, sqlQuery: e.target.value })}
                 placeholder="SELECT COUNT(*) as issue_count FROM your_table WHERE condition..."
               />
-            </Grid>
             
             <Grid item xs={6}>
               <TextField
@@ -330,7 +326,6 @@ const CustomRules: React.FC = () => {
                 value={newRule.threshold}
                 onChange={(e) => setNewRule({ ...newRule, threshold: Number(e.target.value) })}
               />
-            </Grid>
             
             <Grid item xs={6}>
               <FormControl fullWidth>
@@ -348,15 +343,13 @@ const CustomRules: React.FC = () => {
               </FormControl>
             </Grid>
             
-            <Grid item xs={12}>
-              <TextField
+            <TextField
                 fullWidth
                 label="Schedule (Cron Expression)"
                 value={newRule.schedule}
                 onChange={(e) => setNewRule({ ...newRule, schedule: e.target.value })}
                 placeholder="0 9 * * * (Daily at 9 AM)"
               />
-            </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>

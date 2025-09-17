@@ -32,7 +32,7 @@ import {
 } from '@mui/icons-material';
 
 // Import pages
-import ModernOverview from './pages/ModernOverview';
+import ModernOverview from './pages/ModernOverviewFixed';
 import TableMetrics from './pages/TableMetrics';
 import Statistics from './pages/Statistics';
 import CustomRules from './pages/CustomRules';
@@ -193,8 +193,8 @@ const Navigation: React.FC = () => {
       }}
     >
       {/* Logo/Header */}
-      <Box sx={{ p: 3, borderBottom: '1px solid #e2e8f0' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+      <Box sx={{ p: 2, borderBottom: '1px solid #e2e8f0' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <Box
             sx={{
               width: 32,
@@ -232,7 +232,7 @@ const Navigation: React.FC = () => {
       </Box>
 
       {/* Navigation Menu */}
-      <List sx={{ px: 2, pt: 1 }}>
+      <List sx={{ px: 1.5, pt: 0.5 }}>
         {navigationItems.map((item) => (
           <ListItem key={item.path} disablePadding sx={{ mb: 0.5 }}>
             <ListItemButton
