@@ -32,7 +32,7 @@ import {
 } from '@mui/icons-material';
 
 // Import pages
-import ModernOverview from './pages/ModernOverviewFixed';
+import ModernOverview from './pages/ModernOverview';
 import TableMetrics from './pages/TableMetrics';
 import Statistics from './pages/Statistics';
 import CustomRules from './pages/CustomRules';

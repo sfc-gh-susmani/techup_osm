@@ -1,167 +1,104 @@
 import React from 'react';
 import {
   Box,
-  Paper,
-  Typography,
   Card,
   CardContent,
-  Chip,
-  LinearProgress,
+  Typography,
+  Button,
   Avatar,
+  Chip,
   IconButton,
-  Tooltip,
-  Button
+  Tooltip
 } from '@mui/material';
-import { Grid } from '@mui/material';
 import {
   TableChart,
-  Warning,
   CheckCircle,
+  Warning,
   Error,
   TrendingUp,
   TrendingDown,
-  MoreVert,
-  Refresh,
   FilterList,
-  Search
+  Refresh,
+  Search,
+  MoreVert
 } from '@mui/icons-material';
-import { DashboardStats, TableQuality } from '../types';
-
-// Enhanced mock data with more realistic values
-const mockStats: DashboardStats = {
-  totalTables: 847,
-  healthyTables: 738,
-  tablesWithWarnings: 89,
-  criticalTables: 20,
-  totalRules: 156,
-  activeRules: 142,
-  lastRefresh: new Date()
-};
-
-const mockTables: TableQuality[] = [
-  {
-    tableName: 'CUSTOMER_PROFILES',
-    schemaName: 'PROD',
-    databaseName: 'ANALYTICS_DB',
-    overallScore: 0.96,
-    metrics: [],
-    lastChecked: new Date(),
-    rowCount: 2450000,
-    issueCount: 2,
-    status: 'healthy'
-  },
-  {
-    tableName: 'TRANSACTION_HISTORY',
-    schemaName: 'SALES',
-    databaseName: 'TRANSACTIONAL_DB',
-    overallScore: 0.88,
-    metrics: [],
-    lastChecked: new Date(),
-    rowCount: 12500000,
-    issueCount: 8,
-    status: 'warning'
-  },
-  {
-    tableName: 'LEGACY_ORDERS',
-    schemaName: 'ARCHIVE',
-    databaseName: 'HISTORICAL_DB',
-    overallScore: 0.67,
-    metrics: [],
-    lastChecked: new Date(),
-    rowCount: 850000,
-    issueCount: 24,
-    status: 'critical'
-  },
-  {
-    tableName: 'USER_SESSIONS',
-    schemaName: 'ANALYTICS',
-    databaseName: 'BEHAVIORAL_DB',
-    overallScore: 0.94,
-    metrics: [],
-    lastChecked: new Date(),
-    rowCount: 8900000,
-    issueCount: 3,
-    status: 'healthy'
-  },
-  {
-    tableName: 'PRODUCT_INVENTORY',
-    schemaName: 'SUPPLY_CHAIN',
-    databaseName: 'OPERATIONS_DB',
-    overallScore: 0.82,
-    metrics: [],
-    lastChecked: new Date(),
-    rowCount: 156000,
-    issueCount: 12,
-    status: 'warning'
-  }
-];
+import { TableOverview } from '../types';
 
 const ModernOverview: React.FC = () => {
-  const getStatusColor = (status: 'healthy' | 'warning' | 'critical') => {
-    switch (status) {
-      case 'healthy': return 'success';
-      case 'warning': return 'warning';
-      case 'critical': return 'error';
-    }
+  // Mock data for demonstration
+  const mockStats = {
+    totalTables: 847,
+    healthyTables: 738,
+    warningTables: 89,
+    criticalTables: 20,
+    lastRefresh: new Date(),
   };
 
-  const getStatusIcon = (status: 'healthy' | 'warning' | 'critical') => {
-    switch (status) {
-      case 'healthy': return <CheckCircle sx={{ color: '#059669', fontSize: 18 }} />;
-      case 'warning': return <Warning sx={{ color: '#d97706', fontSize: 18 }} />;
-      case 'critical': return <Error sx={{ color: '#dc2626', fontSize: 18 }} />;
-    }
-  };
+  const mockTables: TableOverview[] = [
+    {
+      id: '1',
+      databaseName: 'ANALYTICS_DB',
+      schemaName: 'PROD',
+      tableName: 'CUSTOMER_PROFILES',
+      overallScore: 96,
+      status: 'healthy',
+      issueCount: 2,
+      lastChecked: new Date(),
+      rowCount: 2450000,
+    },
+    {
+      id: '2',
+      databaseName: 'TRANSACTIONAL_DB',
+      schemaName: 'SALES',
+      tableName: 'TRANSACTION_HISTORY',
+      overallScore: 88,
+      status: 'warning',
+      issueCount: 8,
+      lastChecked: new Date(),
+      rowCount: 12500000,
+    },
+    {
+      id: '3',
+      databaseName: 'HISTORICAL_DB',
+      schemaName: 'ARCHIVE',
+      tableName: 'LEGACY_ORDERS',
+      overallScore: 67,
+      status: 'critical',
+      issueCount: 24,
+      lastChecked: new Date(),
+      rowCount: 850000,
+    },
+  ];
 
   const getStatusBadge = (status: 'healthy' | 'warning' | 'critical') => {
-    const colors = {
-      healthy: { bg: '#ecfdf5', color: '#059669', border: '#10b981' },
-      warning: { bg: '#fffbeb', color: '#d97706', border: '#f59e0b' },
-      critical: { bg: '#fef2f2', color: '#dc2626', border: '#ef4444' }
+    const config = {
+      healthy: { color: 'success' as const, label: 'HEALTHY' },
+      warning: { color: 'warning' as const, label: 'WARNING' },
+      critical: { color: 'error' as const, label: 'CRITICAL' },
     };
     
     return (
-      <Box
-        sx={{
-          px: 2,
-          py: 0.5,
-          borderRadius: '6px',
-          backgroundColor: colors[status].bg,
-          border: `1px solid ${colors[status].border}20`,
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 0.5
-        }}
-      >
-        {getStatusIcon(status)}
-        <Typography
-          variant="body2"
-          sx={{
-            color: colors[status].color,
-            fontWeight: 600,
-            fontSize: '0.75rem',
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px'
-          }}
-        >
-          {status}
-        </Typography>
-      </Box>
+      <Chip
+        label={config[status].label}
+        color={config[status].color}
+        size="small"
+        sx={{ fontWeight: 600, fontSize: '0.7rem' }}
+      />
     );
   };
 
   return (
-    <Box sx={{ p: 1, maxWidth: '100%' }}>
+    <Box sx={{ p: 0, maxWidth: '100%' }}>
       {/* Modern Header */}
-      <Box sx={{ mb: 1 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 1 }}>
+      <Box sx={{ mb: 0.25 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0 }}>
           <Box>
             <Typography 
               variant="h4" 
               sx={{ 
                 fontWeight: 700, 
                 color: '#1e293b',
-                mb: 1
+                mb: 0
               }}
             >
               Data Quality Overview
@@ -193,118 +130,111 @@ const ModernOverview: React.FC = () => {
       <Box sx={{ 
         display: 'grid', 
         gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
-        gap: 1.5,
-        mb: 1.5
+        gap: 0.5,
+        mb: 0.5
       }}>
-          <Card sx={{ 
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            color: 'white',
-            border: 'none'
-          }}>
-            <CardContent sx={{ p: 1.5 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0.5 }}>
-                <Box>
-                  <Typography variant="body2" sx={{ opacity: 0.9, fontWeight: 500 }}>
-                    Total Tables
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5, fontSize: '1.8rem', lineHeight: 1.2 }}>
-                    {mockStats.totalTables.toLocaleString()}
-                  </Typography>
-                </Box>
-                <TableChart sx={{ opacity: 0.8, fontSize: 28 }} />
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <TrendingUp sx={{ fontSize: 16, opacity: 0.8 }} />
-                <Typography variant="body2" sx={{ opacity: 0.9, fontSize: '0.75rem' }}>
-                  +12% from last month
+        <Card sx={{ 
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          border: 'none'
+        }}>
+          <CardContent sx={{ p: 0.5 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0 }}>
+              <Box>
+                <Typography variant="body2" sx={{ opacity: 0.9, fontWeight: 500 }}>
+                  Total Tables
+                </Typography>
+                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.25, fontSize: '1.6rem', lineHeight: 1.1 }}>
+                  {mockStats.totalTables.toLocaleString()}
                 </Typography>
               </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+              <TableChart sx={{ opacity: 0.8, fontSize: 28 }} />
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <TrendingUp sx={{ fontSize: 16, opacity: 0.8 }} />
+              <Typography variant="body2" sx={{ opacity: 0.9, fontSize: '0.75rem' }}>
+                +12% from last month
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
         
-        <Grid item xs={12} sm={6} lg={3}>
-          <Card>
-            <CardContent sx={{ p: 1.5 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0.5 }}>
-                <Box>
-                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
-                    Healthy Tables
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 700, mt: 1, color: '#059669' }}>
-                    {mockStats.healthyTables}
-                  </Typography>
-                </Box>
-                <CheckCircle sx={{ color: '#059669', fontSize: 28 }} />
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <TrendingUp sx={{ fontSize: 16, color: '#059669' }} />
-                <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                  {Math.round((mockStats.healthyTables / mockStats.totalTables) * 100)}% of total
+        <Card>
+          <CardContent sx={{ p: 0.5 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0 }}>
+              <Box>
+                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                  Healthy Tables
+                </Typography>
+                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5, fontSize: '1.8rem', lineHeight: 1.2, color: '#059669' }}>
+                  {mockStats.healthyTables}
                 </Typography>
               </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+              <CheckCircle sx={{ color: '#059669', fontSize: 28 }} />
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <TrendingUp sx={{ fontSize: 16, color: '#059669' }} />
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                {Math.round((mockStats.healthyTables / mockStats.totalTables) * 100)}% of total
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
         
-        <Grid item xs={12} sm={6} lg={3}>
-          <Card>
-            <CardContent sx={{ p: 1.5 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0.5 }}>
-                <Box>
-                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
-                    Warnings
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 700, mt: 1, color: '#d97706' }}>
-                    {mockStats.tablesWithWarnings}
-                  </Typography>
-                </Box>
-                <Warning sx={{ color: '#d97706', fontSize: 28 }} />
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <TrendingDown sx={{ fontSize: 16, color: '#d97706' }} />
-                <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                  -8% from last week
+        <Card>
+          <CardContent sx={{ p: 0.5 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0 }}>
+              <Box>
+                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                  Warnings
+                </Typography>
+                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5, fontSize: '1.8rem', lineHeight: 1.2, color: '#d97706' }}>
+                  {mockStats.warningTables}
                 </Typography>
               </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+              <Warning sx={{ color: '#d97706', fontSize: 28 }} />
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <TrendingDown sx={{ fontSize: 16, color: '#d97706' }} />
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                -8% from last week
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
         
-        <Grid item xs={12} sm={6} lg={3}>
-          <Card>
-            <CardContent sx={{ p: 1.5 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0.5 }}>
-                <Box>
-                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
-                    Critical Issues
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 700, mt: 1, color: '#dc2626' }}>
-                    {mockStats.criticalTables}
-                  </Typography>
-                </Box>
-                <Error sx={{ color: '#dc2626', fontSize: 28 }} />
-              </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <TrendingUp sx={{ fontSize: 16, color: '#dc2626' }} />
-                <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                  Requires attention
+        <Card>
+          <CardContent sx={{ p: 0.5 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', mb: 0 }}>
+              <Box>
+                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500 }}>
+                  Critical Issues
+                </Typography>
+                <Typography variant="h3" sx={{ fontWeight: 700, mt: 0.5, fontSize: '1.8rem', lineHeight: 1.2, color: '#dc2626' }}>
+                  {mockStats.criticalTables}
                 </Typography>
               </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+              <Error sx={{ color: '#dc2626', fontSize: 28 }} />
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <TrendingUp sx={{ fontSize: 16, color: '#dc2626' }} />
+              <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                Requires attention
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
 
       {/* Table Quality List */}
       <Card>
         <CardContent sx={{ p: 0 }}>
-          <Box sx={{ p: 1.5, borderBottom: '1px solid #e2e8f0' }}>
+          <Box sx={{ p: 0.5, borderBottom: '1px solid #e2e8f0' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Table Quality Status
               </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box sx={{ display: 'flex', gap: 0.5 }}>
                 <Tooltip title="Search tables">
                   <IconButton size="small">
                     <Search />
@@ -323,7 +253,7 @@ const ModernOverview: React.FC = () => {
             <Box
               key={`${table.databaseName}.${table.schemaName}.${table.tableName}`}
               sx={{
-                p: 1.5,
+                p: 0.5,
                 borderBottom: index < mockTables.length - 1 ? '1px solid #e2e8f0' : 'none',
                 transition: 'all 0.2s ease-in-out',
                 '&:hover': {
@@ -331,89 +261,79 @@ const ModernOverview: React.FC = () => {
                 },
               }}
             >
-              <Grid container spacing={1.5} alignItems="center">
-                <Grid item xs={12} md={4}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <Avatar
+              <Box sx={{ 
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', md: '2fr 1.5fr 1fr 1.5fr' },
+                gap: 0.5,
+                alignItems: 'center'
+              }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <Avatar
+                    sx={{
+                      width: 28,
+                      height: 28,
+                      backgroundColor: table.status === 'healthy' ? '#ecfdf5' : 
+                                     table.status === 'warning' ? '#fffbeb' : '#fef2f2',
+                      color: table.status === 'healthy' ? '#059669' : 
+                            table.status === 'warning' ? '#d97706' : '#dc2626',
+                    }}
+                  >
+                    <TableChart />
+                  </Avatar>
+                  <Box>
+                    <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
+                      {table.tableName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                      {table.databaseName}.{table.schemaName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
+                      {table.rowCount?.toLocaleString()} rows
+                    </Typography>
+                  </Box>
+                </Box>
+                
+                <Box>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500, mb: 0 }}>
+                    Quality Score
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <Box
                       sx={{
-                        width: 32,
-                        height: 32,
-                        backgroundColor: table.status === 'healthy' ? '#ecfdf5' : 
-                                       table.status === 'warning' ? '#fffbeb' : '#fef2f2',
-                        color: table.status === 'healthy' ? '#059669' : 
-                              table.status === 'warning' ? '#d97706' : '#dc2626',
+                        width: 60,
+                        height: 6,
+                        backgroundColor: '#e2e8f0',
+                        borderRadius: 3,
+                        overflow: 'hidden',
                       }}
                     >
-                      <TableChart />
-                    </Avatar>
-                    <Box>
-                      <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                        {table.tableName}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                        {table.databaseName}.{table.schemaName}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                        {table.rowCount?.toLocaleString()} rows
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-                
-                <Grid item xs={12} md={3}>
-                  <Box>
-                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 500, mb: 1 }}>
-                      Quality Score
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                      <Box sx={{ flexGrow: 1 }}>
-                        <LinearProgress
-                          variant="determinate"
-                          value={table.overallScore * 100}
-                          sx={{
-                            height: 6,
-                            borderRadius: 3,
-                            backgroundColor: '#e2e8f0',
-                            '& .MuiLinearProgress-bar': {
-                              borderRadius: 3,
-                              backgroundColor: table.status === 'healthy' ? '#059669' : 
-                                             table.status === 'warning' ? '#d97706' : '#dc2626',
-                            },
-                          }}
-                        />
-                      </Box>
-                      <Typography variant="body2" sx={{ fontWeight: 600, minWidth: '40px' }}>
-                        {Math.round(table.overallScore * 100)}%
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Grid>
-                
-                <Grid item xs={12} md={2}>
-                  {getStatusBadge(table.status)}
-                </Grid>
-                
-                <Grid item xs={12} md={3}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                      Last checked: {table.lastChecked.toLocaleTimeString()}
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                       <Box
                         sx={{
-                          width: 6,
-                          height: 6,
-                          borderRadius: '50%',
-                          backgroundColor: '#059669',
+                          width: `${table.overallScore}%`,
+                          height: '100%',
+                          backgroundColor: table.status === 'healthy' ? '#059669' : 
+                                          table.status === 'warning' ? '#d97706' : '#dc2626',
+                          borderRadius: 3,
                         }}
                       />
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                        {table.issueCount} issues detected
-                      </Typography>
                     </Box>
+                    <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.75rem' }}>
+                      {table.overallScore}%
+                    </Typography>
                   </Box>
-                </Grid>
-              </Grid>
+                </Box>
+                
+                {getStatusBadge(table.status)}
+                
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                    Last checked: {table.lastChecked.toLocaleTimeString()}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                    • {table.issueCount} issues detected
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
           ))}
         </CardContent>
